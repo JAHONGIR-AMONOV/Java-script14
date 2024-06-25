@@ -167,14 +167,14 @@ market.forEach(item => {
 })
 
 if(findedProducts.trim().length > 0) {
-    const selecting = prompt(`По вашему запросу найдено: 
+    const selected = prompt(`По вашему запросу найдено: 
         ${findedProducts} 
 
         Если вам понравилося товар из этого списка то напишите название ниже
         `).trim()
 }
 
-if (findedProducts.includes(selecting.toLowerCase())) {
+if (findedProducts.includes(selected.toLowerCase())) {
     const finded = market.find(item => item.title.toLowerCase() === selected.toLowerCase());
   
     const goingToBuy = confirm(`
