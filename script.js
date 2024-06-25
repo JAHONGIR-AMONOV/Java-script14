@@ -109,97 +109,94 @@
 
 // console.log(expiredProduct);
 
-
-let market = [
-    {
-        title: "moloko",
-        type: 'milk',
-        price: 12000,
-        expDate: "2024-06-21"
-    },
-    {
-        title: "cheese",
-        type: 'milk',
-        price: 68000,
-        expDate: "2023-06-21"
-    },
-    {
-        title: "watermelon",
-        type: 'fruit',
-        price: 8000,
-        expDate: "2024-06-29"
-    },
-    {
-        title: "banana",
-        type: 'fruit',
-        price: 24000,
-        expDate: "2023-07-08"
-    },
-    {
-        title: "apple",
-        type: 'fruit',
-        price: 5000,
-        expDate: "2024-07-08"
-    },
-    {
-        title: "baltika 7",
-        type: 'alcohol',
-        price: 18000,
-        expDate: "2023-07-08"
-    },
-    {
-        title: "jaguar",
-        type: 'alcohol',
-        price: 12000,
-        expDate: "2025-07-08"
-    },
-]
-
-const from = prompt('от этой суммы')
-const up =prompt('до этой суммы')
-
-let findedProducts = ""
-
-market.forEach(item => {
-    if(item.price > from && item.price < up) {
-        findedProducts += ` ${item.title + " - $" + item.price}`
-    }
-})
-
-if(findedProducts.trim().length > 0) {
-    const selected = prompt(`По вашему запросу найдено: 
-        ${findedProducts} 
-
-        Если вам понравилося товар из этого списка то напишите название ниже
-        `).trim()
-}
-
-if (findedProducts.includes(selected.toLowerCase())) {
-    const finded = market.find(item => item.title.toLowerCase() === selected.toLowerCase());
-  
-    const goingToBuy = confirm(`
-  
-  Характеристики товаров:
-  
-  Type: ${finded.title},
-  
-  Price: ${finded.price},
-  
-  ExpDate: ${finded.expDate}
-  
-  Вы хотите купить этот товар?
-  
-  `);
-  
-    if (goingToBuy === true) {
-      const purchase = +prompt(`Введите сумму продукта: ${finded.price}`);
-  
-      if (Number(purchase) >= finded.price) {
-        alert(`Поздравляем вы приобрели товар ${finded.type} ваш остаток: ${purchase - finded.price}`);
-      } else {
-        alert(`Недостаточно средств: ${finded.type}`);
-      }
-    } else {
-      alert('По вашему запросу ничего не найдено');
-    }
-  } 
+            let market = [
+                {
+                    title: "moloko",
+                    type: 'milk',
+                    price: 12000,
+                    expDate: "2024-06-21"
+                },
+                {
+                    title: "cheese",
+                    type: 'milk',
+                    price: 68000,
+                    expDate: "2023-06-21"
+                },
+                {
+                    title: "watermelon",
+                    type: 'fruit',
+                    price: 8000,
+                    expDate: "2024-06-29"
+                },
+                {
+                    title: "banana",
+                    type: 'fruit',
+                    price: 24000,
+                    expDate: "2023-07-08"
+                },
+                {
+                    title: "apple",
+                    type: 'fruit',
+                    price: 5000,
+                    expDate: "2024-07-08"
+                },
+                {
+                    title: "baltika 7",
+                    type: 'alcohol',
+                    price: 18000,
+                    expDate: "2023-07-08"
+                },
+                {
+                    title: "jaguar",
+                    type: 'alcohol',
+                    price: 12000,
+                    expDate: "2025-07-08"
+                },
+            ]
+            
+            const from = parseFloat(prompt('От этой суммы:'));
+            const up = parseFloat(prompt('До этой суммы:'));
+            
+            let findedProducts = "";
+            let availableProducts = [];
+            
+            market.forEach(item => {
+                if (item.price > from && item.price < up) {
+                    findedProducts += `${item.title} - $${item.price}\n`;
+                    availableProducts.push(item);
+                }
+            });
+            
+            if (findedProducts.trim().length > 0) {
+                const selected = prompt(`По вашему запросу найдено: 
+            ${findedProducts} 
+            Если вам понравилось что-то из этого списка, напишите название ниже:`).trim().toLowerCase();
+            
+                const finded = availableProducts.find(item => item.title.toLowerCase() === selected);
+            
+                if (finded) {
+                    const goingToBuy = confirm(`
+            Характеристики товара:
+            Type: ${finded.type},
+            Price: ${finded.price},
+            ExpDate: ${finded.expDate}
+            Вы хотите купить этот товар?
+            `);
+            
+                    if (goingToBuy) {
+                        const purchase = parseFloat(prompt(`Введите сумму для оплаты продукта: ${finded.price}`));
+            
+                        if (purchase >= finded.price) {
+                            alert(`Поздравляем, вы приобрели товар ${finded.title}. Ваш остаток: ${purchase - finded.price}`);
+                        } else {
+                            alert(`Недостаточно средств для покупки товара: ${finded.title}`);
+                        }
+                    } else {
+                        alert('Вы отказались от покупки.');
+                    }
+                } else {
+                    alert('Товар не найден.');
+                }
+            } else {
+                alert('По вашему запросу ничего не найдено.');
+            }
